@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using TicketManagementService.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,17 @@ IConfiguration configuration = new ConfigurationBuilder()
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization Headder using the Bearer scheme",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 builder.Services.AddRequiredServices(configuration);
 
 var app = builder.Build();
@@ -28,4 +40,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Start();
+app.UseConsul(app);
+app.WaitForShutdown();

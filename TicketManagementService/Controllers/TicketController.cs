@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels;
 using Services.Abstraction;
@@ -17,6 +18,7 @@ namespace TicketManagementService.Controllers
         }
 
         [HttpPost("bookticket")]
+        [Authorize]
         public Response<TicketVM> BookTicket(BookingVM bookingVM)
         {
             var response = new Response<TicketVM>();
@@ -34,6 +36,7 @@ namespace TicketManagementService.Controllers
             return response;
         }
         [HttpGet("getticket/{pnrNo}")]
+        [Authorize]
         public Response<TicketVM> GetTicket(int pnrNo)
         {
             var response = new Response<TicketVM>();
@@ -52,6 +55,7 @@ namespace TicketManagementService.Controllers
         }
 
         [HttpGet("getticket")]
+        [Authorize]
         public Response<List<TicketVM>> GetTicket()
         {
             var response = new Response<List<TicketVM>>();
@@ -70,6 +74,7 @@ namespace TicketManagementService.Controllers
         }
 
         [HttpDelete("cancelticket")]
+        [Authorize]
         public Response<TicketVM> CancelTicket(long pnrno)
         {
             var response = new Response<TicketVM>();
