@@ -17,13 +17,15 @@ namespace Services.Services
         private readonly ITicketRepository _ticketRepo;
         private readonly IMapper _mapper;
         private readonly IApplicationContext _context;
-        public TicketService(ITicketRepository ticketRepo, IMapper mapper, IApplicationContext context)
+        private readonly IMQService _mqService;
+        public TicketService(ITicketRepository ticketRepo, IMapper mapper, IApplicationContext context, IMQService mqService)
         {
             _ticketRepo = ticketRepo;
             _mapper = mapper;
             _context = context;
+            _mqService = mqService;
         }
-    
+
         public TicketVM BookTicket(BookingVM bookingVM)
         {
             try
@@ -36,6 +38,16 @@ namespace Services.Services
                 var random = new Random();
                 ticket.PnrNo = random.NextInt64(1000000, 9999999);
                 var result = _ticketRepo.CreateTicket(ticket);
+                if(result!= null)
+                {
+                    List<string> seats = new List<string>();
+                    foreach (var item in result.Passengers)
+                    {
+                        seats.Add(item.SeatNo);
+                    }
+                    var obj = new { FlightId = result.FlightDetail.Id, SeatNos = seats, Status = true };
+                    _mqService.PublishMessage(obj, "airlineEvent");
+                }
                 return _mapper.Map<TicketVM>(result);
             }catch(Exception ex)
             {
@@ -50,6 +62,16 @@ namespace Services.Services
             try
             {
                 var result = _ticketRepo.CancelTicket(PnrNo);
+                if (result != null)
+                {
+                    List<string> seats = new List<string>();
+                    foreach (var item in result.Passengers)
+                    {
+                        seats.Add(item.SeatNo);
+                    }
+                    var obj = new { FlightId = result.FlightDetail.Id, SeatNos = seats, Status = false };
+                    _mqService.PublishMessage(obj, "airlineEvent");
+                }
                 return _mapper.Map<TicketVM>(result);
             }catch(Exception ex)
             {

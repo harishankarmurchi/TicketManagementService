@@ -66,7 +66,7 @@ namespace Repository.Repos
         {
             try
             {
-               var res= _dbContext.Tickets.FirstOrDefault(x => x.PnrNo == pnrno);
+               var res= _dbContext.Tickets.Include("FlightDetail").Include("Passengers").FirstOrDefault(x => x.PnrNo == pnrno);
                 res.IsCancelled = true;
                 _dbContext.Update(res);
                 _dbContext.SaveChanges();
