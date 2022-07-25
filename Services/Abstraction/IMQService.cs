@@ -8,6 +8,6 @@ namespace Services.Abstraction
 {
     public interface IMQService
     {
-        void PublishMessage(object message, string queueName)
+        void PublishMessage(object message, string queueName);
     }
 }
