@@ -45,7 +45,7 @@ namespace Services.Services
                     {
                         seats.Add(item.SeatNo);
                     }
-                    var obj = new { FlightId = result.FlightDetail.Id, SeatNos = seats, Status = true };
+                    var obj = new { FlightId = result.FlightDetail.FlightId, SeatNos = seats, Status = true };
                     _mqService.PublishMessage(obj, "airlineEvent");
                 }
                 return _mapper.Map<TicketVM>(result);
@@ -69,7 +69,7 @@ namespace Services.Services
                     {
                         seats.Add(item.SeatNo);
                     }
-                    var obj = new { FlightId = result.FlightDetail.Id, SeatNos = seats, Status = false };
+                    var obj = new { FlightId = result.FlightDetail.FlightId, SeatNos = seats, Status = false };
                     _mqService.PublishMessage(obj, "airlineEvent");
                 }
                 return _mapper.Map<TicketVM>(result);

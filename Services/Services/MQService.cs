@@ -16,20 +16,21 @@ namespace Services.Services
         private readonly IConnection _connection;
         public  MQService(IConfiguration congiguration)
         {
-            var factory = new ConnectionFactory
-            {
-                Uri = new Uri("amqp://guest:guest@localhost:5672")
-            };
             
-            using var connection = factory.CreateConnection();
-            _connection= connection; ;
             
 
         }
 
         public void PublishMessage(object message, string queueName)
         {
-            using var channel = _connection.CreateModel();
+            var factory = new ConnectionFactory
+            {
+                Uri = new Uri("amqp://guest:guest@localhost:5672")
+            };
+
+            using var connection = factory.CreateConnection();
+            
+            using var channel = connection.CreateModel();
             channel.QueueDeclare(queueName,
                 durable: true,
                 exclusive: false,
