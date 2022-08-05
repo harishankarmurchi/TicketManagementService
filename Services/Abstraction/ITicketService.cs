@@ -1,4 +1,5 @@
-﻿using Models.ViewModels;
+﻿using Models.DBModels;
+using Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Services.Abstraction
         TicketVM BookTicket(BookingVM bookingVM);
         List<TicketVM> GetTicketsByUserId();
         TicketVM GetTicket(long PnrNo);
-        TicketVM CancelTicket(long PnrNo);   
+        TicketVM CancelTicket(long PnrNo);
+        List<DiscountVM> GetDiscounts();
     }
 }

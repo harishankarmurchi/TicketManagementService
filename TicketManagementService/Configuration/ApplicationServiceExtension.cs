@@ -60,6 +60,7 @@ namespace TicketManagementService.Configuration
             services.AddTransient<IApplicationContext, ApplicationContext>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IMQService, MQService>();
             return services;
         }
         public static IServiceCollection AddConsulConfig(this IServiceCollection service, IConfiguration configuration)

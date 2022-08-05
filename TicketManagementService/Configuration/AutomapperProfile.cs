@@ -12,6 +12,7 @@ namespace TicketManagementService.Configuration
             CreateMap<PassengerVM, Passenger>().ReverseMap();
             CreateMap<TicketVM, Ticket>().ReverseMap();
             CreateMap<BookingVM, Ticket>().ReverseMap();
+            CreateMap<DiscountVM,Discount>().ReverseMap();
         }
     }
 }

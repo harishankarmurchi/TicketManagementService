@@ -14,5 +14,7 @@ namespace Repository
         public DbSet<Passenger> Passengers { get; set; }
         public DbSet<FlightDetail> FlightDetails { get; set; }
 
+        public DbSet<Discount> Discount { get; set; }
+
     }
 }
