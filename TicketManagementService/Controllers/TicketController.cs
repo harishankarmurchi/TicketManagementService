@@ -93,6 +93,26 @@ namespace TicketManagementService.Controllers
             return response;
         }
 
+        [HttpGet("discount")]
+        [Authorize]
+        public Response<List<DiscountVM>> getDiscounts(long pnrno)
+        {
+            var response = new Response<List<DiscountVM>>();
+            try
+            {
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.Data = _ticketService.GetDiscounts();
+               
+
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
 
     }
 }

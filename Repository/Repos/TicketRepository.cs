@@ -76,5 +76,17 @@ namespace Repository.Repos
                 throw;
             }
         }
+
+        public List<Discount> GetDiscounts()
+        {
+            try
+            {
+                return _dbContext.Discount.ToList();
+
+            }catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

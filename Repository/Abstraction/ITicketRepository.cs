@@ -13,5 +13,6 @@ namespace Repository.Abstraction
         List<Ticket> GetTicketByUserId(int userId);
         Ticket GetTicketByPNR(long PNR);
         Ticket CancelTicket(long pnrno);
+        List<Discount> GetDiscounts();
     }
 }

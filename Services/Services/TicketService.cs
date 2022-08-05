@@ -103,5 +103,17 @@ namespace Services.Services
                 throw;
             }
         }
+        public List<DiscountVM> GetDiscounts()
+        {
+            try
+            {
+                var result = _ticketRepo.GetDiscounts();
+                return _mapper.Map<List<DiscountVM>>(result);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
